@@ -77,7 +77,6 @@ myfatal $? "unpacking failed - ${ARCHIVE_PATH}"
 ###### Go to install dir:
 cd "dock6/install/"
 
-CONFIG_TYPE=gnu
 if [ "${CONFIGURE_PARAM}" =~ "parallel" ] ; then
 	CONFIG_TYPE="${CONFIGURE_PARAM}"
 	echo "Installing dependencies for ${CONFIGURE_PARAM}"
