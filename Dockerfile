@@ -1,17 +1,14 @@
-FROM ubuntu:14.10
+FROM debian:wheezy
 MAINTAINER Tomasz Gaweda
-#ENV http_proxy http://172.17.42.1:8080/
+
+ENV http_proxy http://172.17.42.1:8080/
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-ENV DOCK6_HOME /home/dock6
-RUN useradd -d ${DOCK6_HOME} -m -s /bin/bash dock6
-COPY dock.6.6_source.tar.gz ${DOCK6_HOME}/dock.6.6_source.tar.gz
-COPY dock6_install.sh ${DOCK6_HOME}/dock6_install.sh
-RUN cd ${DOCK6_HOME} && bash ./dock6_install.sh dock.6.6_source.tar.gz
-
-RUN chown -R dock6 ${DOCK6_HOME}
-
-#USER dock6
+RUN    apt-get update && apt-get -y install wget                     \
+	&& wget -q http://172.17.42.1:9090/dock.6.6_source.tar.gz        \
+	&& wget -q http://172.17.42.1:9090/docker-dock6/dock_install.sh \
+	&& bash dock_install.sh dock*_source.tar.gz                     \
+	&& rm -f dock*_source.tar.gz
 
 CMD ["/bin/bash"]
